@@ -17,13 +17,14 @@ public class MixinWorldRenderer {
         return Math.max(a, b);
     }
 
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;getViewDistance()F"))
-    private float changeRD(GameRenderer instance) {
-        float viewDistance = instance.getViewDistance();
-        if (Nvidium.IS_ENABLED) {
-            var dist = Nvidium.config.region_keep_distance * 16;
-            return dist == 32 * 16 ? viewDistance : (dist == 256 * 16 ? 9999999 : dist);
-        }
-        return viewDistance;
-    }
+    // TODO: Fix getViewDistance for 1.21.5
+    //@Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;getViewDistance()F"))
+    //private float changeRD(GameRenderer instance) {
+    //    float viewDistance = instance.getViewDistance();
+    //    if (Nvidium.IS_ENABLED) {
+    //        var dist = Nvidium.config.region_keep_distance * 16;
+    //        return dist == 32 * 16 ? viewDistance : (dist == 256 * 16 ? 9999999 : dist);
+    //    }
+    //    return viewDistance;
+    //}
 }

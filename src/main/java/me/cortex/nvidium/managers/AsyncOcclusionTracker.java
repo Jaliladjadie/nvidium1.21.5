@@ -186,7 +186,7 @@ public class AsyncOcclusionTracker {
     private boolean shouldUseOcclusionCulling(Camera camera, boolean spectator) {
         BlockPos origin = camera.getBlockPos();
         boolean useOcclusionCulling;
-        if (spectator && this.world.getBlockState(origin).isOpaqueFullCube(this.world, origin)) {
+        if (spectator && this.world.getBlockState(origin).isOpaqueFullCube()) {
             useOcclusionCulling = false;
         } else {
             useOcclusionCulling = MinecraftClient.getInstance().chunkCullingEnabled;
@@ -196,8 +196,9 @@ public class AsyncOcclusionTracker {
     }
 
     private float getEffectiveRenderDistance() {
-        float[] color = RenderSystem.getShaderFogColor();
-        float distance = RenderSystem.getShaderFogEnd();
+        // TODO: Fix fog methods for 1.21.5
+        float[] color = new float[]{0.0f, 0.0f, 0.0f, 1.0f}; // RenderSystem.getShaderFogColor();
+        float distance = 1000.0f; // RenderSystem.getShaderFogEnd();
         float renderDistance = this.getRenderDistance();
         return !MathHelper.approximatelyEquals(color[3], 1.0F) ? renderDistance : Math.min(renderDistance, distance + 0.5F);
     }

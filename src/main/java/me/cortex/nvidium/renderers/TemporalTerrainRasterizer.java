@@ -39,8 +39,10 @@ public class TemporalTerrainRasterizer extends Phase {
     public void raster(int regionCount, long commandAddr) {
         shader.bind();
 
-        int blockId = MinecraftClient.getInstance().getTextureManager().getTexture(Identifier.of("minecraft", "textures/atlas/blocks.png")).getGlId();
-        int lightId = ((LightMapAccessor)MinecraftClient.getInstance().gameRenderer.getLightmapTextureManager()).getTexture().getGlId();
+        // TODO: Fix texture ID retrieval for 1.21.5
+        int blockId = 0; // MinecraftClient.getInstance().getTextureManager().getTexture(Identifier.of("minecraft", "textures/atlas/blocks.png")).getId();
+        // TODO: Fix LightMapAccessor for 1.21.5
+        int lightId = 0; // ((LightMapAccessor)MinecraftClient.getInstance().gameRenderer.getLightmapTextureManager()).getTexture().getGlId();
 
         GL45C.glBindTextureUnit(0, blockId);
         GL45C.glBindSampler(0, blockSampler);

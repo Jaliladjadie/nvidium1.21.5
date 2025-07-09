@@ -1,6 +1,6 @@
 package me.cortex.nvidium.renderers;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import me.cortex.nvidium.gl.shader.Shader;
 import me.cortex.nvidium.mixin.minecraft.LightMapAccessor;
 import me.cortex.nvidium.sodiumCompat.ShaderLoader;

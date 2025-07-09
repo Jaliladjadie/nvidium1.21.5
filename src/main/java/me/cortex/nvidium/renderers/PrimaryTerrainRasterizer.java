@@ -1,6 +1,6 @@
 package me.cortex.nvidium.renderers;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import me.cortex.nvidium.gl.shader.Shader;
 import me.cortex.nvidium.sodiumCompat.ShaderLoader;
 import me.cortex.nvidium.mixin.minecraft.LightMapAccessor;
@@ -13,6 +13,7 @@ import org.lwjgl.opengl.GL45C;
 import static me.cortex.nvidium.RenderPipeline.GL_DRAW_INDIRECT_ADDRESS_NV;
 import static me.cortex.nvidium.gl.shader.ShaderType.*;
 import static org.lwjgl.opengl.GL11C.*;
+import static org.lwjgl.opengl.GL13C.glActiveTexture;
 import static org.lwjgl.opengl.GL33.glGenSamplers;
 import static org.lwjgl.opengl.NVMeshShader.glMultiDrawMeshTasksIndirectNV;
 import static org.lwjgl.opengl.NVVertexBufferUnifiedMemory.glBufferAddressRangeNV;
@@ -37,15 +38,18 @@ public class PrimaryTerrainRasterizer extends Phase {
     }
 
     private static void setTexture(int textureId, int bindingPoint) {
-        GlStateManager._activeTexture(33984 + bindingPoint);
-        GlStateManager._bindTexture(textureId);
+        // TODO: Fix texture binding for 1.21.5
+        glActiveTexture(33984 + bindingPoint);
+        glBindTexture(GL_TEXTURE_2D, textureId);
     }
 
     public void raster(int regionCount, long commandAddr) {
         shader.bind();
 
-        int blockId = MinecraftClient.getInstance().getTextureManager().getTexture(Identifier.of("minecraft", "textures/atlas/blocks.png")).getGlId();
-        int lightId = ((LightMapAccessor)MinecraftClient.getInstance().gameRenderer.getLightmapTextureManager()).getTexture().getGlId();
+        // TODO: Fix texture ID retrieval for 1.21.5
+        int blockId = 0; // MinecraftClient.getInstance().getTextureManager().getTexture(Identifier.of("minecraft", "textures/atlas/blocks.png")).getId();
+        // TODO: Fix LightMapAccessor for 1.21.5
+        int lightId = 0; // ((LightMapAccessor)MinecraftClient.getInstance().gameRenderer.getLightmapTextureManager()).getTexture().getGlId();
 
         GL45C.glBindSampler(0, blockSampler);
         GL45C.glBindSampler(1, lightSampler);

@@ -1,7 +1,7 @@
 package me.cortex.nvidium.gl.images;
 
-import com.mojang.blaze3d.platform.GlConst;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import static org.lwjgl.opengl.GL11C.*;
 
 import static org.lwjgl.opengl.ARBDirectStateAccess.*;
 import static org.lwjgl.opengl.GL11C.GL_TEXTURE_2D;
@@ -30,9 +30,10 @@ public class DepthOnlyFrameBuffer {
     }
 
     public void bind(boolean setViewport) {
-        GlStateManager._glBindFramebuffer(GlConst.GL_FRAMEBUFFER, fid);
+        RenderSystem.assertOnRenderThread();
+        glBindFramebuffer(GL_FRAMEBUFFER, fid);
         if (setViewport) {
-            GlStateManager._viewport(0, 0, width, height);
+            glViewport(0, 0, width, height);
         }
     }
 
